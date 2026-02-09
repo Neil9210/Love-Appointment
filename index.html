@@ -19,20 +19,21 @@ body{
   font-family:Arial,sans-serif;
 }
 
-/* floating hearts */
+/* FLOATING HEARTS */
 .heart{
   position:absolute;
-  font-size:22px;
-  opacity:0.6;
-  animation:float 10s linear infinite;
+  font-size:60px;
+  opacity:0.2;
+  animation:float 20s linear infinite;
 }
 @keyframes float{
-  from{transform:translateY(110vh);opacity:.6;}
-  to{transform:translateY(-10vh);opacity:0;}
+  from{transform:translateY(120vh);}
+  to{transform:translateY(-40vh);}
 }
 
 /* CARD */
 .card{
+  position:relative;
   background:white;
   width:92vw;
   max-width:420px;
@@ -46,37 +47,17 @@ body{
   gap:14px;
 }
 
-/* IMAGE AREA */
+/* IMAGE */
 .image-box{
-  position:relative;
   width:100%;
   height:260px;
   border-radius:16px;
   overflow:hidden;
 }
-
 .image-box img{
   width:100%;
   height:100%;
   object-fit:cover;
-}
-
-/* NO BUTTON */
-#no{
-  position:absolute;
-  left:60%;
-  top:70%;
-  transform:translate(-50%,-50%);
-  z-index:2;
-
-  background:white;
-  border:3px solid #ff4d6d;
-  color:#ff4d6d;
-  padding:18px 44px;
-  border-radius:40px;
-  font-size:22px;
-  cursor:pointer;
-  transition:transform .2s,opacity .3s;
 }
 
 /* TEXT */
@@ -86,11 +67,13 @@ h2{
   margin:0;
 }
 
-/* YES BUTTON */
+/* BUTTONS */
 .buttons{
   height:80px;
 }
+
 #yes{
+  margin-left:-180px;
   padding:18px 44px;
   border-radius:40px;
   font-size:22px;
@@ -98,6 +81,22 @@ h2{
   cursor:pointer;
   background:#ff4d6d;
   color:white;
+}
+
+#no{
+  position:absolute;
+  left:61%;
+  top:85%;
+  transform:translate(-20%,-50%);
+  z-index:5;
+  background:white;
+  border:3px solid #ff4d6d;
+  color:#ff4d6d;
+  padding:18px 44px;
+  border-radius:40px;
+  font-size:22px;
+  cursor:pointer;
+  transition:transform .2s,opacity .3s;
 }
 
 /* CONFETTI */
@@ -112,34 +111,42 @@ h2{
     opacity:0;
   }
 }
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce){
+  .heart,.confetti{animation:none;}
+}
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="card" id="cardArea">
 
-  <div class="image-box" id="moveArea">
-    <img src="galaxy.jpg" alt="Love Image">
-    <button id="no">No 🙈</button>
+  <div class="image-box">
+    <img src="galaxy.jpg"
+         alt="Love Image"
+         onerror="this.src='https://picsum.photos/600/400?love'">
   </div>
+
+  <button id="no" aria-label="No button">No 🙈</button>
 
   <h2 id="text">Do you want to meet me? 😌</h2>
 
   <div class="buttons">
-    <button id="yes">Yes 😍</button>
+    <button id="yes" aria-label="Yes button">Yes 😍</button>
   </div>
 
 </div>
 
 <script>
-/* HEARTS BACKGROUND */
-for(let i=0;i<16;i++){
+/* HEART BACKGROUND */
+for(let i=0;i<14;i++){
   const h=document.createElement("div");
   h.className="heart";
   h.innerHTML="💗";
   h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(Math.random()*4+8)+"s";
+  h.style.animationDuration=(Math.random()*6+10)+"s";
   document.body.appendChild(h);
 }
 
@@ -156,12 +163,12 @@ let t=0;
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const text=document.getElementById("text");
-const area=document.getElementById("moveArea");
+const area=document.getElementById("cardArea");
 
-/* EVIL NO */
+/* EVIL NO BUTTON */
 function evil(){
-  const msg = taunts[t % taunts.length];
-  text.innerText = msg;
+  const msg=taunts[t%taunts.length];
+  text.innerText=msg;
 
   if(msg.includes("YES hi bacha")){
     noBtn.style.opacity="0";
@@ -169,42 +176,33 @@ function evil(){
     return;
   }
 
-  const maxX = area.clientWidth - noBtn.offsetWidth;
-  const maxY = area.clientHeight - noBtn.offsetHeight;
+  const maxX=area.clientWidth-noBtn.offsetWidth;
+  const minY=area.clientHeight*0.45;
+  const maxY=area.clientHeight-noBtn.offsetHeight;
 
-  const x = Math.random()*maxX;
-  const y = Math.random()*maxY;
+  const x=Math.random()*maxX;
+  const y=minY+Math.random()*(maxY-minY);
 
-  noBtn.style.left = x + "px";
-  noBtn.style.top  = y + "px";
-
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
   t++;
 }
 
-noBtn.addEventListener("mouseover",evil);
-noBtn.addEventListener("touchstart",evil);
+noBtn.addEventListener("pointerenter",evil);
+noBtn.addEventListener("pointerdown",evil);
 
-/* 🔥 HUGE FULL SCREEN CONFETTI BLAST 🔥 */
+/* CONFETTI BLAST */
 function blast(){
-  for(let i=0;i<350;i++){
+  const count=window.innerWidth<500?180:300;
+  for(let i=0;i<count;i++){
     const c=document.createElement("div");
     c.className="confetti";
-
-    // full screen spread
     c.style.left=Math.random()*100+"vw";
-
-    // big confetti size
-    const size = Math.random()*14 + 12;
-    c.style.width = size+"px";
-    c.style.height = size*1.6+"px";
-
-    // colors
+    const size=Math.random()*14+12;
+    c.style.width=size+"px";
+    c.style.height=size*1.6+"px";
     c.style.background=`hsl(${Math.random()*360},100%,60%)`;
-
-    // speed & delay
-    c.style.animationDuration = (Math.random()*2 + 3) + "s";
-    c.style.animationDelay = Math.random()*0.4 + "s";
-
+    c.style.animationDuration=(Math.random()*2+3)+"s";
     document.body.appendChild(c);
     setTimeout(()=>c.remove(),6000);
   }
