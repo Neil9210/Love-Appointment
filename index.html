@@ -134,7 +134,6 @@ const taunts=[
   "Soch lo 😏",
   "Pakki baat? 👀",
   "Itna bhaav kyun 😌",
-  "No ka option bug ho gaya 😂",
   "Bas YES hi bacha hai 😎"
 ];
 
@@ -148,7 +147,8 @@ function evil(){
   const msg = taunts[t % taunts.length];
   text.innerText = msg;
 
-  if(msg.includes("bug")){
+  /* JAB LAST TEXT AAYE → NO GAYAB */
+  if(msg.includes("YES hi bacha")){
     noBtn.style.opacity="0";
     noBtn.style.pointerEvents="none";
     return;
