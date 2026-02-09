@@ -6,9 +6,7 @@
 <title>Question 💖</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
   margin:0;
@@ -45,15 +43,31 @@ body{
   z-index:2;
   display:flex;
   flex-direction:column;
-  gap:16px;
+  gap:14px;
+}
+
+/* IMAGE CONTAINER */
+.image-box{
+  position:relative;
+  width:100%;
+  height:260px;
+  border-radius:16px;
+  overflow:hidden;
 }
 
 /* IMAGE */
-.card img{
+.image-box img{
   width:100%;
-  height:260px;
+  height:100%;
   object-fit:cover;
-  border-radius:16px;
+}
+
+/* NO BUTTON INSIDE IMAGE */
+.image-box #no{
+  position:absolute;
+  top:70%;
+  left:60%;
+  transform:translate(-50%,-50%);
 }
 
 /* TEXT */
@@ -65,8 +79,8 @@ h2{
 
 /* BUTTONS */
 .buttons{
-  height:110px;
   position:relative;
+  height:80px;
 }
 
 button{
@@ -82,13 +96,12 @@ button{
   color:white;
 }
 
+/* NO STYLE */
 #no{
   background:white;
   border:3px solid #ff4d6d;
   color:#ff4d6d;
-  position:absolute;
-  right:0;
-  transition:transform .2s,width .2s,opacity .3s;
+  transition:transform .2s,opacity .3s;
 }
 
 /* CONFETTI */
@@ -108,14 +121,18 @@ button{
 <body>
 
 <div class="card">
-  <img src="galaxy.jpg" alt="Love Image">
+
+  <div class="image-box">
+    <img src="galaxy.jpg" alt="Love Image">
+    <button id="no">No 🙈</button>
+  </div>
 
   <h2 id="text">Do you want to meet me? 😌</h2>
 
   <div class="buttons">
     <button id="yes">Yes 😍</button>
-    <button id="no">No 🙈</button>
   </div>
+
 </div>
 
 <script>
@@ -142,27 +159,27 @@ let t=0;
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const text=document.getElementById("text");
+const box=document.querySelector(".image-box");
 
-/* EVIL NO */
+/* EVIL NO — ONLY INSIDE IMAGE */
 function evil(){
   const msg = taunts[t % taunts.length];
   text.innerText = msg;
 
-  /* JAB LAST TEXT AAYE → NO GAYAB */
   if(msg.includes("YES hi bacha")){
     noBtn.style.opacity="0";
     noBtn.style.pointerEvents="none";
     return;
   }
 
-  const x=Math.random()*200;
-  const y=Math.random()*80;
-  const scale=Math.random()*0.4+0.6;
-  const rot=Math.random()*360;
+  const maxX = box.clientWidth - noBtn.offsetWidth;
+  const maxY = box.clientHeight - noBtn.offsetHeight;
 
-  noBtn.style.transform=
-    `translate(${x}px,${y}px) scale(${scale}) rotate(${rot}deg)`;
-  noBtn.style.width=(Math.random()*40+90)+"px";
+  const x = Math.random()*maxX;
+  const y = Math.random()*maxY;
+
+  noBtn.style.left = x + "px";
+  noBtn.style.top  = y + "px";
 
   t++;
 }
