@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Question 💖</title>
 
 <style>
+*{box-sizing:border-box;}
+
 body{
   margin:0;
   min-height:100vh;
@@ -33,7 +36,6 @@ body{
   background:white;
   width:92vw;
   max-width:420px;
-  height:85vh;
   padding:18px;
   border-radius:22px;
   text-align:center;
@@ -41,61 +43,68 @@ body{
   z-index:2;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:14px;
 }
 
+/* IMAGE CONTAINER */
 .image-box{
   position:relative;
   width:100%;
-  height:55%;
+  height:260px;
+  border-radius:16px;
+  overflow:hidden;
 }
 
+/* IMAGE */
 .image-box img{
   width:100%;
   height:100%;
   object-fit:cover;
-  border-radius:16px;
 }
 
-/* buttons inside image */
-.buttons{
+/* NO BUTTON INSIDE IMAGE */
+.image-box #no{
   position:absolute;
-  bottom:15px;
-  left:50%;
-  transform:translateX(-50%);
-  width:90%;
-  height:90px;
+  top:70%;
+  left:60%;
+  transform:translate(-50%,-50%);
+}
+
+/* TEXT */
+h2{
+  color:#d6336c;
+  font-size:22px;
+  margin:0;
+}
+
+/* BUTTONS */
+.buttons{
+  position:relative;
+  height:80px;
 }
 
 button{
-  padding:14px 34px;
-  border-radius:30px;
-  font-size:18px;
+  padding:18px 44px;
+  border-radius:40px;
+  font-size:22px;
   border:none;
   cursor:pointer;
-  position:absolute;
 }
 
 #yes{
   background:#ff4d6d;
   color:white;
-  left:0;
 }
 
+/* NO STYLE */
 #no{
   background:white;
-  border:2px solid #ff4d6d;
+  border:3px solid #ff4d6d;
   color:#ff4d6d;
-  right:0;
   transition:transform .2s,opacity .3s;
 }
 
-h2{
-  color:#d6336c;
-  min-height:48px;
-}
-
-/* confetti */
+/* CONFETTI */
 .confetti{
   position:fixed;
   width:8px;
@@ -112,20 +121,22 @@ h2{
 <body>
 
 <div class="card">
-  <div class="image-box">
-    <img src="galaxy.jpg">
 
-    <div class="buttons" id="btnArea">
-      <button id="yes">Yes 😍</button>
-      <button id="no">No 🙈</button>
-    </div>
+  <div class="image-box">
+    <img src="galaxy.jpg" alt="Love Image">
+    <button id="no">No 🙈</button>
   </div>
 
   <h2 id="text">Do you want to meet me? 😌</h2>
+
+  <div class="buttons">
+    <button id="yes">Yes 😍</button>
+  </div>
+
 </div>
 
 <script>
-/* hearts */
+/* HEARTS */
 for(let i=0;i<14;i++){
   const h=document.createElement("div");
   h.className="heart";
@@ -135,11 +146,11 @@ for(let i=0;i<14;i++){
   document.body.appendChild(h);
 }
 
+/* TAUNTS */
 const taunts=[
   "Soch lo 😏",
   "Pakki baat? 👀",
   "Itna bhaav kyun 😌",
-  "No ka option bug ho gaya 😂",
   "Bas YES hi bacha hai 😎"
 ];
 
@@ -147,9 +158,9 @@ let t=0;
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const text=document.getElementById("text");
-const area=document.getElementById("btnArea");
+const box=document.querySelector(".image-box");
 
-/* evil no – stays inside card */
+/* EVIL NO — ONLY INSIDE IMAGE */
 function evil(){
   const msg = taunts[t % taunts.length];
   text.innerText = msg;
@@ -160,40 +171,41 @@ function evil(){
     return;
   }
 
-  const maxX = area.clientWidth - noBtn.offsetWidth;
-  const maxY = area.clientHeight - noBtn.offsetHeight;
+  const maxX = box.clientWidth - noBtn.offsetWidth;
+  const maxY = box.clientHeight - noBtn.offsetHeight;
 
   const x = Math.random()*maxX;
   const y = Math.random()*maxY;
 
-  noBtn.style.transform = `translate(${x}px,${y}px)`;
+  noBtn.style.left = x + "px";
+  noBtn.style.top  = y + "px";
+
   t++;
 }
 
 noBtn.addEventListener("mouseover",evil);
 noBtn.addEventListener("touchstart",evil);
 
-/* confetti */
+/* CONFETTI */
 function blast(){
   for(let i=0;i<120;i++){
     const c=document.createElement("div");
     c.className="confetti";
     c.style.left=Math.random()*100+"vw";
     c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    c.style.animationDelay=Math.random()*0.3+"s";
     document.body.appendChild(c);
     setTimeout(()=>c.remove(),2600);
   }
 }
 
-/* yes click */
+/* YES CLICK */
 yesBtn.addEventListener("click",()=>{
   blast();
-  text.innerText="I knew it 😌💖";
-
+  text.innerText="Good choice 😎";
   setTimeout(()=>{
-    window.location.href =
-"https://wa.me/919210732298?text=I%20Love%20You%20Meri%20Jaan%F0%9F%92%9E%F0%9F%92%93%F0%9F%A5%B0";
-  },4000);
+    window.location.href="yes.html";
+  },1500);
 });
 </script>
 
