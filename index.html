@@ -23,7 +23,7 @@ body{
 .heart{
   position:absolute;
   font-size:60px;
-  opacity:15;
+  opacity:0.2;
   animation:float 18s linear infinite;
 }
 @keyframes float{
@@ -142,7 +142,7 @@ for(let i=0;i<14;i++){
   document.body.appendChild(h);
 }
 
-/* TAUNTS (ONE BY ONE) */
+/* TAUNTS */
 const taunts=[
   "Soch lo 😏",
   "Pakki baat? 👀",
@@ -158,18 +158,19 @@ const yesBtn=document.getElementById("yes");
 const text=document.getElementById("text");
 const area=document.getElementById("cardArea");
 
-/* NO BUTTON LOGIC */
+/* EVIL NO BUTTON – FIXED */
 function evil(){
-  if(index < taunts.length){
-    text.innerText = taunts[index];
-  }
+  // Show taunt
+  text.innerText = taunts[index];
 
+  // Last taunt → remove No
   if(index === taunts.length-1){
     noBtn.style.opacity="0";
     noBtn.style.pointerEvents="none";
     return;
   }
 
+  // Move No button
   const maxX = area.clientWidth - noBtn.offsetWidth;
   const minY = area.clientHeight * 0.45;
   const maxY = area.clientHeight - noBtn.offsetHeight;
@@ -180,8 +181,8 @@ function evil(){
   index++;
 }
 
-noBtn.addEventListener("pointerdown",evil);
-noBtn.addEventListener("pointerenter",evil);
+// ONE interaction only
+noBtn.addEventListener("pointerdown", evil);
 
 /* CONFETTI */
 function blast(){
