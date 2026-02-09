@@ -7,7 +7,7 @@
 <style>
 body{
   margin:0;
-  height:100vh;
+  min-height:100vh;
   background:linear-gradient(135deg,#ffe6ee,#fff0f5);
   display:flex;
   justify-content:center;
@@ -16,49 +16,52 @@ body{
   font-family:Arial,sans-serif;
 }
 
-/* Soft hearts */
+/* floating hearts */
 .heart{
   position:absolute;
-  font-size:18px;
-  opacity:0.7;
-  animation:float 12s linear infinite;
+  font-size:22px;
+  opacity:0.6;
+  animation:float 10s linear infinite;
 }
-
 @keyframes float{
-  from{transform:translateY(100vh);opacity:0.7;}
+  from{transform:translateY(110vh);opacity:.6;}
   to{transform:translateY(-10vh);opacity:0;}
 }
 
+/* CARD */
 .card{
   background:white;
-  padding:25px;
-  border-radius:18px;
-  width:330px;
+  padding:30px;
+  border-radius:22px;
+  width:380px;
+  max-width:90%;
   text-align:center;
-  box-shadow:0 15px 30px rgba(0,0,0,.2);
+  box-shadow:0 20px 40px rgba(0,0,0,.2);
   z-index:2;
 }
 
 img{
   width:100%;
-  border-radius:12px;
+  border-radius:16px;
 }
 
 h2{
   color:#d6336c;
-  margin:15px 0;
+  margin:18px 0;
+  min-height:48px;
 }
 
+/* buttons */
 .buttons{
-  margin-top:20px;
-  height:90px;
+  margin-top:25px;
+  height:120px;
   position:relative;
 }
 
 button{
-  padding:10px 24px;
-  border-radius:20px;
-  font-size:16px;
+  padding:12px 30px;
+  border-radius:25px;
+  font-size:17px;
   border:none;
   cursor:pointer;
 }
@@ -74,6 +77,19 @@ button{
   color:#ff4d6d;
   position:absolute;
   right:0;
+  transition:transform .2s,width .2s;
+}
+
+/* confetti */
+.confetti{
+  position:fixed;
+  width:8px;
+  height:14px;
+  top:-10px;
+  animation:fall 2.5s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(720deg);opacity:0;}
 }
 </style>
 </head>
@@ -82,39 +98,73 @@ button{
 
 <div class="card">
   <img src="galaxy.jpg">
-  <h2>Do you want to meet me? 💕</h2>
+  <h2 id="text">Do you want to meet me? 😌</h2>
 
   <div class="buttons">
-    <button id="yes">Yes 🙂</button>
+    <button id="yes">Yes 😍</button>
     <button id="no">No 🙈</button>
   </div>
 </div>
 
 <script>
-// soft hearts
-for(let i=0;i<12;i++){
-  let h=document.createElement("div");
+/* hearts */
+for(let i=0;i<14;i++){
+  const h=document.createElement("div");
   h.className="heart";
   h.innerHTML="💗";
   h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(Math.random()*4 + 10) + "s";
+  h.style.animationDuration=(Math.random()*4+8)+"s";
   document.body.appendChild(h);
 }
 
-// buttons
+/* taunts */
+const taunts=[
+  "Soch lo 😏",
+  "Pakki baat? 👀",
+  "Itna bhaav kyun 😌",
+  "No ka option bug ho gaya 😂",
+  "Bas YES hi bacha hai 😎"
+];
+let t=0;
+
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
+const text=document.getElementById("text");
 
-function move(){
-  noBtn.style.transform =
-    `translate(${Math.random()*200}px,${Math.random()*60}px)`;
+/* evil no */
+function evil(){
+  const x=Math.random()*220;
+  const y=Math.random()*90;
+  const scale=Math.random()*0.4+0.6;
+  const rot=Math.random()*360;
+  noBtn.style.transform=
+    `translate(${x}px,${y}px) scale(${scale}) rotate(${rot}deg)`;
+  noBtn.style.width=(Math.random()*40+70)+"px";
+  text.innerText=taunts[t++%taunts.length];
+}
+noBtn.addEventListener("mouseover",evil);
+noBtn.addEventListener("touchstart",evil);
+
+/* confetti */
+function blast(){
+  for(let i=0;i<120;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    c.style.animationDelay=Math.random()*0.3+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2600);
+  }
 }
 
-noBtn.addEventListener("mouseover", move);
-noBtn.addEventListener("touchstart", move);
-
-yesBtn.addEventListener("click", () => {
-  window.location.href = "yes.html";
+/* yes click */
+yesBtn.addEventListener("click",()=>{
+  blast();
+  text.innerText="Good choice 😎";
+  setTimeout(()=>{
+    window.location.href="yes.html";
+  },1500);
 });
 </script>
 
