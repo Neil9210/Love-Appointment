@@ -19,7 +19,7 @@ body{
 /* floating hearts */
 .heart{
   position:absolute;
-  font-size:22px;
+  font-size:20px;
   opacity:0.6;
   animation:float 10s linear infinite;
 }
@@ -33,22 +33,22 @@ body{
   background:white;
   width:92vw;
   max-width:420px;
-  height:80vh;
+  height:75vh;              /* 🔑 EXACT SIZE */
   padding:16px;
   border-radius:22px;
   text-align:center;
-  box-shadow:0 20px 40px rgba(0,0,0,.2);
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
   z-index:2;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  align-items:center;
 }
 
-/* IMAGE AREA (BALANCED SIZE) */
+/* IMAGE */
 .image-box{
   position:relative;
   width:100%;
-  height:45%;
+  height:38%;               /* 🔑 IMAGE CHHOTI */
 }
 
 .image-box img{
@@ -62,16 +62,16 @@ body{
 /* BUTTONS INSIDE IMAGE */
 .buttons{
   position:absolute;
-  bottom:12px;
+  bottom:16px;
   left:50%;
   transform:translateX(-50%);
   width:90%;
-  height:90px;
+  height:80px;
 }
 
 button{
-  padding:14px 36px;
-  border-radius:30px;
+  padding:14px 38px;        /* 🔑 BUTTON BIG */
+  border-radius:32px;
   font-size:18px;
   border:none;
   cursor:pointer;
@@ -93,9 +93,10 @@ button{
 }
 
 h2{
+  margin-top:16px;
   color:#d6336c;
+  font-size:20px;
   min-height:48px;
-  margin-top:6px;
 }
 
 /* confetti */
@@ -128,7 +129,7 @@ h2{
 </div>
 
 <script>
-/* floating hearts */
+/* hearts */
 for(let i=0;i<14;i++){
   const h=document.createElement("div");
   h.className="heart";
@@ -143,7 +144,6 @@ const taunts=[
   "Soch lo 😏",
   "Pakki baat? 👀",
   "Itna bhaav kyun 😌",
-  "No ka option bug ho gaya 😂",
   "Bas YES hi bacha hai 😎"
 ];
 
@@ -153,12 +153,11 @@ const yesBtn=document.getElementById("yes");
 const text=document.getElementById("text");
 const area=document.getElementById("btnArea");
 
-/* EVIL NO – stays inside image */
+/* evil no (inside image only) */
 function evil(){
   const msg = taunts[t % taunts.length];
   text.innerText = msg;
 
-  // last text → NO gayab
   if(msg.includes("YES hi bacha")){
     noBtn.style.opacity="0";
     noBtn.style.pointerEvents="none";
@@ -178,7 +177,7 @@ function evil(){
 noBtn.addEventListener("mouseover",evil);
 noBtn.addEventListener("touchstart",evil);
 
-/* confetti blast */
+/* confetti */
 function blast(){
   for(let i=0;i<120;i++){
     const c=document.createElement("div");
@@ -190,7 +189,7 @@ function blast(){
   }
 }
 
-/* YES CLICK */
+/* yes click */
 yesBtn.addEventListener("click",()=>{
   blast();
   text.innerText="I knew it 😌💖";
