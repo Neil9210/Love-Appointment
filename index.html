@@ -23,12 +23,12 @@ body{
 .heart{
   position:absolute;
   font-size:60px;
-  opacity:0.2;
-  animation:float 20s linear infinite;
+  opacity:15;
+  animation:float 18s linear infinite;
 }
 @keyframes float{
   from{transform:translateY(120vh);}
-  to{transform:translateY(-40vh);}
+  to{transform:translateY(-60vh);}
 }
 
 /* CARD */
@@ -41,7 +41,6 @@ body{
   border-radius:22px;
   text-align:center;
   box-shadow:0 20px 40px rgba(0,0,0,.2);
-  z-index:2;
   display:flex;
   flex-direction:column;
   gap:14px;
@@ -68,9 +67,7 @@ h2{
 }
 
 /* BUTTONS */
-.buttons{
-  height:80px;
-}
+.buttons{height:80px;}
 
 #yes{
   margin-left:-180px;
@@ -96,7 +93,7 @@ h2{
   border-radius:40px;
   font-size:22px;
   cursor:pointer;
-  transition:transform .2s,opacity .3s;
+  transition:.2s;
 }
 
 /* CONFETTI */
@@ -111,11 +108,6 @@ h2{
     opacity:0;
   }
 }
-
-/* REDUCED MOTION */
-@media (prefers-reduced-motion: reduce){
-  .heart,.confetti{animation:none;}
-}
 </style>
 </head>
 
@@ -125,22 +117,22 @@ h2{
 
   <div class="image-box">
     <img src="galaxy.jpg"
-         alt="Love Image"
-         onerror="this.src='https://picsum.photos/600/400?love'">
+         onerror="this.src='https://picsum.photos/600/400?love'"
+         alt="Love Image">
   </div>
 
-  <button id="no" aria-label="No button">No 🙈</button>
+  <button id="no">No 🙈</button>
 
   <h2 id="text">Do you want to meet me? 😌</h2>
 
   <div class="buttons">
-    <button id="yes" aria-label="Yes button">Yes 😍</button>
+    <button id="yes">Yes 😍</button>
   </div>
 
 </div>
 
 <script>
-/* HEART BACKGROUND */
+/* BACKGROUND HEARTS */
 for(let i=0;i<14;i++){
   const h=document.createElement("div");
   h.className="heart";
@@ -150,7 +142,7 @@ for(let i=0;i<14;i++){
   document.body.appendChild(h);
 }
 
-/* TAUNTS */
+/* TAUNTS (ONE BY ONE) */
 const taunts=[
   "Soch lo 😏",
   "Pakki baat? 👀",
@@ -159,41 +151,43 @@ const taunts=[
   "Bas YES hi bacha hai 😎"
 ];
 
-let t=0;
+let index=0;
+
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const text=document.getElementById("text");
 const area=document.getElementById("cardArea");
 
-/* EVIL NO BUTTON */
+/* NO BUTTON LOGIC */
 function evil(){
-  const msg=taunts[t%taunts.length];
-  text.innerText=msg;
+  if(index < taunts.length){
+    text.innerText = taunts[index];
+  }
 
-  if(msg.includes("YES hi bacha")){
+  /* Last taunt → remove No */
+  if(index === taunts.length-1){
     noBtn.style.opacity="0";
     noBtn.style.pointerEvents="none";
     return;
   }
 
-  const maxX=area.clientWidth-noBtn.offsetWidth;
-  const minY=area.clientHeight*0.45;
-  const maxY=area.clientHeight-noBtn.offsetHeight;
+  /* Move No button */
+  const maxX = area.clientWidth - noBtn.offsetWidth;
+  const minY = area.clientHeight * 0.45;
+  const maxY = area.clientHeight - noBtn.offsetHeight;
 
-  const x=Math.random()*maxX;
-  const y=minY+Math.random()*(maxY-minY);
+  noBtn.style.left = Math.random()*maxX + "px";
+  noBtn.style.top  = minY + Math.random()*(maxY-minY) + "px";
 
-  noBtn.style.left=x+"px";
-  noBtn.style.top=y+"px";
-  t++;
+  index++;
 }
 
-noBtn.addEventListener("pointerenter",evil);
 noBtn.addEventListener("pointerdown",evil);
+noBtn.addEventListener("pointerenter",evil);
 
-/* CONFETTI BLAST */
+/* CONFETTI */
 function blast(){
-  const count=window.innerWidth<500?180:300;
+  const count = window.innerWidth < 500 ? 180 : 300;
   for(let i=0;i<count;i++){
     const c=document.createElement("div");
     c.className="confetti";
@@ -212,9 +206,7 @@ function blast(){
 yesBtn.addEventListener("click",()=>{
   blast();
   text.innerText="Good choice 😎";
-  setTimeout(()=>{
-    window.location.href="yes.html";
-  },2000);
+  setTimeout(()=>location.href="yes.html",2000);
 });
 </script>
 
