@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Question 💖</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   min-height:100vh;
@@ -28,44 +33,46 @@ body{
   to{transform:translateY(-10vh);opacity:0;}
 }
 
-/* FULL SCREEN CARD */
+/* CARD */
 .card{
   background:white;
   width:92vw;
-  height:85vh;
-  padding:20px;
+  max-width:420px;
+  padding:18px;
   border-radius:22px;
   text-align:center;
   box-shadow:0 20px 40px rgba(0,0,0,.2);
   z-index:2;
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
+  gap:16px;
 }
 
-img{
+/* IMAGE */
+.card img{
   width:100%;
-  height:55%;
+  height:260px;
   object-fit:cover;
   border-radius:16px;
 }
 
+/* TEXT */
 h2{
   color:#d6336c;
-  margin:15px 0;
-  min-height:48px;
+  font-size:22px;
+  margin:0;
 }
 
-/* buttons */
+/* BUTTONS */
 .buttons{
-  height:120px;
+  height:110px;
   position:relative;
 }
 
 button{
-  padding:14px 34px;
-  border-radius:30px;
-  font-size:18px;
+  padding:18px 44px;
+  border-radius:40px;
+  font-size:22px;
   border:none;
   cursor:pointer;
 }
@@ -77,14 +84,14 @@ button{
 
 #no{
   background:white;
-  border:2px solid #ff4d6d;
+  border:3px solid #ff4d6d;
   color:#ff4d6d;
   position:absolute;
   right:0;
   transition:transform .2s,width .2s,opacity .3s;
 }
 
-/* confetti */
+/* CONFETTI */
 .confetti{
   position:fixed;
   width:8px;
@@ -101,7 +108,7 @@ button{
 <body>
 
 <div class="card">
-  <img src="galaxy.jpg">
+  <img src="galaxy.jpg" alt="Love Image">
 
   <h2 id="text">Do you want to meet me? 😌</h2>
 
@@ -112,7 +119,7 @@ button{
 </div>
 
 <script>
-/* hearts */
+/* HEARTS */
 for(let i=0;i<14;i++){
   const h=document.createElement("div");
   h.className="heart";
@@ -122,6 +129,7 @@ for(let i=0;i<14;i++){
   document.body.appendChild(h);
 }
 
+/* TAUNTS */
 const taunts=[
   "Soch lo 😏",
   "Pakki baat? 👀",
@@ -135,7 +143,7 @@ const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const text=document.getElementById("text");
 
-/* evil no */
+/* EVIL NO */
 function evil(){
   const msg = taunts[t % taunts.length];
   text.innerText = msg;
@@ -146,14 +154,14 @@ function evil(){
     return;
   }
 
-  const x=Math.random()*220;
-  const y=Math.random()*90;
+  const x=Math.random()*200;
+  const y=Math.random()*80;
   const scale=Math.random()*0.4+0.6;
   const rot=Math.random()*360;
 
   noBtn.style.transform=
     `translate(${x}px,${y}px) scale(${scale}) rotate(${rot}deg)`;
-  noBtn.style.width=(Math.random()*40+70)+"px";
+  noBtn.style.width=(Math.random()*40+90)+"px";
 
   t++;
 }
@@ -161,7 +169,7 @@ function evil(){
 noBtn.addEventListener("mouseover",evil);
 noBtn.addEventListener("touchstart",evil);
 
-/* confetti */
+/* CONFETTI */
 function blast(){
   for(let i=0;i<120;i++){
     const c=document.createElement("div");
@@ -174,7 +182,7 @@ function blast(){
   }
 }
 
-/* YES CLICK → SECOND PAGE */
+/* YES CLICK */
 yesBtn.addEventListener("click",()=>{
   blast();
   text.innerText="Good choice 😎";
