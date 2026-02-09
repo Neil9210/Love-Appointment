@@ -16,30 +16,17 @@ body{
   font-family:Arial,sans-serif;
 }
 
-.heart{
-  position:absolute;
-  font-size:18px;
-  opacity:0.7;
-  animation:float 12s linear infinite;
-}
-
-@keyframes float{
-  from{transform:translateY(100vh);opacity:0.7;}
-  to{transform:translateY(-10vh);opacity:0;}
-}
-
 .card{
   background:white;
   padding:30px;
-  border-radius:18px;
+  border-radius:22px;
   text-align:center;
   box-shadow:0 15px 30px rgba(0,0,0,.2);
-  z-index:2;
 }
 
 img{
-  width:280px;
-  border-radius:12px;
+  width:300px;
+  border-radius:16px;
 }
 
 h1{
@@ -56,16 +43,12 @@ h1{
   <h1>💖 I knew you’d say yes 🙂</h1>
 </div>
 
+<!-- WHATSAPP AUTO OPEN AFTER 4 SECONDS -->
 <script>
-// soft hearts
-for(let i=0;i<12;i++){
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💗";
-  h.style.left=Math.random()*100+"vw";
-  h.style.animationDuration=(Math.random()*4 + 10) + "s";
-  document.body.appendChild(h);
-}
+setTimeout(()=>{
+  window.location.href =
+  "https://wa.me/919210732298?text=I%20Love%20You%20Meri%20Jaan%F0%9F%92%9E%F0%9F%92%93%F0%9F%A5%B0";
+},4000);
 </script>
 
 </body>
