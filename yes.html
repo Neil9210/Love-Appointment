@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Yes 💖</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,#fff0f5,#ffe6ee);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+}
+
+/* Soft hearts */
+.heart{
+  position:absolute;
+  font-size:18px;
+  opacity:0.7;
+  animation:float 12s linear infinite;
+}
+
+@keyframes float{
+  from{
+    transform:translateY(100vh);
+    opacity:0.7;
+  }
+  to{
+    transform:translateY(-10vh);
+    opacity:0;
+  }
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 15px 30px rgba(0,0,0,.2);
+  z-index:2;
+}
+
+img{
+  width:280px;
+  border-radius:12px;
+}
+
+h1{
+  color:#d6336c;
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body onload="playSound()">
+
+<!-- Sound -->
+<audio id="sound" src="yes.mp3"></audio>
+
+<div class="card">
+  <img src="success.jpg">
+  <h1>💖 I knew you’d say yes 🙂</h1>
+</div>
+
+<script>
+// Soft hearts
+for(let i=0;i<12;i++){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💗";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(Math.random()*4 + 10) + "s";
+  document.body.appendChild(h);
+}
+
+function playSound(){
+  document.getElementById("sound").play();
+}
+</script>
+
+</body>
+</html>
