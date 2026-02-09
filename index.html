@@ -33,8 +33,8 @@ body{
   background:white;
   width:92vw;
   max-width:420px;
-  height:85vh;
-  padding:18px;
+  height:80vh;
+  padding:16px;
   border-radius:22px;
   text-align:center;
   box-shadow:0 20px 40px rgba(0,0,0,.2);
@@ -44,23 +44,25 @@ body{
   gap:12px;
 }
 
+/* IMAGE AREA (BALANCED SIZE) */
 .image-box{
   position:relative;
   width:100%;
-  height:55%;
+  height:45%;
 }
 
 .image-box img{
   width:100%;
   height:100%;
   object-fit:cover;
+  object-position:center;
   border-radius:16px;
 }
 
-/* buttons inside image */
+/* BUTTONS INSIDE IMAGE */
 .buttons{
   position:absolute;
-  bottom:15px;
+  bottom:12px;
   left:50%;
   transform:translateX(-50%);
   width:90%;
@@ -68,7 +70,7 @@ body{
 }
 
 button{
-  padding:14px 34px;
+  padding:14px 36px;
   border-radius:30px;
   font-size:18px;
   border:none;
@@ -93,6 +95,7 @@ button{
 h2{
   color:#d6336c;
   min-height:48px;
+  margin-top:6px;
 }
 
 /* confetti */
@@ -125,7 +128,7 @@ h2{
 </div>
 
 <script>
-/* hearts */
+/* floating hearts */
 for(let i=0;i<14;i++){
   const h=document.createElement("div");
   h.className="heart";
@@ -135,6 +138,7 @@ for(let i=0;i<14;i++){
   document.body.appendChild(h);
 }
 
+/* taunts */
 const taunts=[
   "Soch lo 😏",
   "Pakki baat? 👀",
@@ -149,11 +153,12 @@ const yesBtn=document.getElementById("yes");
 const text=document.getElementById("text");
 const area=document.getElementById("btnArea");
 
-/* evil no – stays inside card */
+/* EVIL NO – stays inside image */
 function evil(){
   const msg = taunts[t % taunts.length];
   text.innerText = msg;
 
+  // last text → NO gayab
   if(msg.includes("YES hi bacha")){
     noBtn.style.opacity="0";
     noBtn.style.pointerEvents="none";
@@ -173,7 +178,7 @@ function evil(){
 noBtn.addEventListener("mouseover",evil);
 noBtn.addEventListener("touchstart",evil);
 
-/* confetti */
+/* confetti blast */
 function blast(){
   for(let i=0;i<120;i++){
     const c=document.createElement("div");
@@ -185,7 +190,7 @@ function blast(){
   }
 }
 
-/* yes click */
+/* YES CLICK */
 yesBtn.addEventListener("click",()=>{
   blast();
   text.innerText="I knew it 😌💖";
