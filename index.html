@@ -140,10 +140,9 @@ function evil(){
   const msg = taunts[t % taunts.length];
   text.innerText = msg;
 
-  // jab bug wala text aaye → NO gayab
   if(msg.includes("bug")){
-    noBtn.style.opacity = "0";
-    noBtn.style.pointerEvents = "none";
+    noBtn.style.opacity="0";
+    noBtn.style.pointerEvents="none";
     return;
   }
 
@@ -152,7 +151,7 @@ function evil(){
   const scale=Math.random()*0.4+0.6;
   const rot=Math.random()*360;
 
-  noBtn.style.transform =
+  noBtn.style.transform=
     `translate(${x}px,${y}px) scale(${scale}) rotate(${rot}deg)`;
   noBtn.style.width=(Math.random()*40+70)+"px";
 
@@ -175,13 +174,12 @@ function blast(){
   }
 }
 
-/* yes click */
+/* YES CLICK → SECOND PAGE */
 yesBtn.addEventListener("click",()=>{
   blast();
   text.innerText="Good choice 😎";
   setTimeout(()=>{
-    window.location.href =
-"https://wa.me/919210732298?text=I%20Love%20You%20Meri%20Jaan%F0%9F%92%9E%F0%9F%92%93%F0%9F%A5%B0";
+    window.location.href="yes.html";
   },1500);
 });
 </script>
