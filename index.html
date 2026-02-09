@@ -15,109 +15,150 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  overflow:hidden;
   font-family:Arial,sans-serif;
 }
 
-/* CARD (RED BOX AREA) */
+/* floating hearts */
+.heart{
+  position:absolute;
+  font-size:22px;
+  opacity:0.6;
+  animation:float 10s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(110vh);opacity:.6;}
+  to{transform:translateY(-10vh);opacity:0;}
+}
+
+/* CARD */
 .card{
-  position:relative;
   background:white;
   width:92vw;
   max-width:420px;
   padding:18px;
   border-radius:22px;
-  box-shadow:0 20px 40px rgba(0,0,0,.2);
   text-align:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.2);
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-/* IMAGE */
+/* IMAGE CONTAINER */
 .image-box{
+  position:relative;
   width:100%;
   height:260px;
   border-radius:16px;
   overflow:hidden;
 }
+
+/* IMAGE */
 .image-box img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
+/* NO BUTTON */
+#no{
+  position:absolute;
+  background:white;
+  border:3px solid #ff4d6d;
+  color:#ff4d6d;
+  padding:18px 44px;
+  border-radius:40px;
+  font-size:22px;
+  cursor:pointer;
+  transition:transform .2s,opacity .3s;
+}
+
 /* TEXT */
 h2{
   color:#d6336c;
-  margin:16px 0;
+  font-size:22px;
+  margin:0;
 }
 
-/* BUTTON AREA */
+/* YES BUTTON */
 .buttons{
-  position:relative;
-  height:110px;
+  height:80px;
 }
-
-/* BUTTON COMMON */
-button{
+#yes{
   padding:18px 44px;
   border-radius:40px;
   font-size:22px;
   border:none;
   cursor:pointer;
-}
-
-/* YES */
-#yes{
   background:#ff4d6d;
   color:white;
 }
 
-/* NO (MOVING) */
-#no{
-  position:absolute;
-  right:0;
-  bottom:0;
-  background:white;
-  border:3px solid #ff4d6d;
-  color:#ff4d6d;
-  transition:transform .2s, opacity .3s;
+/* CONFETTI */
+.confetti{
+  position:fixed;
+  width:8px;
+  height:14px;
+  top:-10px;
+  animation:fall 2.5s linear forwards;
+}
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(720deg);opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="card" id="card">
+<div class="card">
 
-  <div class="image-box">
-    <img src="galaxy.jpg">
+  <div class="image-box" id="moveArea">
+    <img src="galaxy.jpg" alt="Love Image">
+    <button id="no">No 🙈</button>
   </div>
 
   <h2 id="text">Do you want to meet me? 😌</h2>
 
-  <div class="buttons" id="moveArea">
+  <div class="buttons">
     <button id="yes">Yes 😍</button>
-    <button id="no">No 🙈</button>
   </div>
 
 </div>
 
 <script>
-const noBtn = document.getElementById("no");
-const area  = document.getElementById("moveArea");
-const text  = document.getElementById("text");
+/* HEARTS */
+for(let i=0;i<14;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💗";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(Math.random()*4+8)+"s";
+  document.body.appendChild(h);
+}
 
-const taunts = [
+/* TAUNTS */
+const taunts=[
   "Soch lo 😏",
   "Pakki baat? 👀",
   "Itna bhaav kyun 😌",
+  "No ka option bug ho gaya 😂",
   "Bas YES hi bacha hai 😎"
 ];
 
-let t = 0;
+let t=0;
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const text=document.getElementById("text");
+const area=document.getElementById("moveArea");
 
+/* EVIL NO — moves inside card image */
 function evil(){
-  text.innerText = taunts[t % taunts.length];
+  const msg = taunts[t % taunts.length];
+  text.innerText = msg;
 
-  if(t === taunts.length-1){
+  if(msg.includes("YES hi bacha")){
     noBtn.style.opacity="0";
     noBtn.style.pointerEvents="none";
     return;
@@ -129,15 +170,34 @@ function evil(){
   const x = Math.random()*maxX;
   const y = Math.random()*maxY;
 
-  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  noBtn.style.left = x + "px";
+  noBtn.style.top  = y + "px";
+
   t++;
 }
 
-noBtn.addEventListener("mouseover", evil);
-noBtn.addEventListener("touchstart", evil);
+noBtn.addEventListener("mouseover",evil);
+noBtn.addEventListener("touchstart",evil);
 
-document.getElementById("yes").addEventListener("click",()=>{
+/* CONFETTI */
+function blast(){
+  for(let i=0;i<120;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),2600);
+  }
+}
+
+/* YES CLICK */
+yesBtn.addEventListener("click",()=>{
+  blast();
   text.innerText="Good choice 😎";
+  setTimeout(()=>{
+    window.location.href="yes.html";
+  },1500);
 });
 </script>
 
