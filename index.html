@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Question 💖</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,#ffe6ee,#fff0f5);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+}
+
+/* Soft hearts */
+.heart{
+  position:absolute;
+  font-size:18px;
+  opacity:0.7;
+  animation:float 12s linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh);opacity:0.7;}
+  to{transform:translateY(-10vh);opacity:0;}
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:18px;
+  width:330px;
+  text-align:center;
+  box-shadow:0 15px 30px rgba(0,0,0,.2);
+  z-index:2;
+}
+
+img{
+  width:100%;
+  border-radius:12px;
+}
+
+h2{
+  color:#d6336c;
+  margin:15px 0;
+}
+
+.buttons{
+  margin-top:20px;
+  height:90px;
+  position:relative;
+}
+
+button{
+  padding:10px 24px;
+  border-radius:20px;
+  font-size:16px;
+  border:none;
+  cursor:pointer;
+}
+
+#yes{
+  background:#ff4d6d;
+  color:white;
+}
+
+#no{
+  background:white;
+  border:2px solid #ff4d6d;
+  color:#ff4d6d;
+  position:absolute;
+  right:0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <img src="couple.jpg">
+  <h2>Do you want to meet me? 💕</h2>
+
+  <div class="buttons">
+    <button id="yes">Yes 🙂</button>
+    <button id="no">No 🙈</button>
+  </div>
+</div>
+
+<script>
+// soft hearts
+for(let i=0;i<12;i++){
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="💗";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(Math.random()*4 + 10) + "s";
+  document.body.appendChild(h);
+}
+
+// buttons
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+
+function move(){
+  noBtn.style.transform =
+    `translate(${Math.random()*200}px,${Math.random()*60}px)`;
+}
+
+noBtn.addEventListener("mouseover", move);
+noBtn.addEventListener("touchstart", move);
+
+yesBtn.addEventListener("click", () => {
+  window.location.href = "yes.html";
+});
+</script>
+
+</body>
+</html>
